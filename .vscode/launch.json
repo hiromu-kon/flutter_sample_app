@@ -2,21 +2,28 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "flutter_sample_app",
-            "request": "launch",
-            "type": "dart"
-        },
-        {
-            "name": "flutter_sample_app (profile mode)",
+            "name": "Run development",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "profile"
+            "args": [
+                "--dart-define=FLAVOR=dev"
+            ]
         },
         {
-            "name": "flutter_sample_app (release mode)",
+            "name": "Run staging",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "release"
+            "args": [
+                "--dart-define=FLAVOR=stg"
+            ]
+        },
+        {
+            "name": "Run production",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--dart-define=FLAVOR=prod"
+            ]
         }
     ]
 }

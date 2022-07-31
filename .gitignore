@@ -46,5 +46,11 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-# FVM
+# FVM related
 .fvm/flutter_sdk
+
+# Android related
+**/android/app/src/main/res/mipmap*/
+
+# iOS related
+**/ios/Flutter/DartDefines.xcconfig
