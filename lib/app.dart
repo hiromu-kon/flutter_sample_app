@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sample_app/pages/switch_page.dart';
+import 'package:flutter_sample_app/scaffold_messenger_switch_page.dart';
+import 'package:flutter_sample_app/utils/utils.dart';
 import 'package:flutter_sample_app/widgets/loading/loading.dart';
 
 class App extends StatelessWidget {
@@ -18,8 +19,13 @@ class App extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          iconTheme: IconThemeData(color: ColorName.primary),
+        ),
       ),
-      home: const SwitchPage(),
+      home: const ScaffoldMessengerSwitchPage(),
       builder: (BuildContext context, Widget? child) {
         return Stack(
           children: [
