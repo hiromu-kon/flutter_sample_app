@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sample_app/scaffold_messenger_switch_page.dart';
+import 'package:flutter_sample_app/pages/top_page/top_page.dart';
 import 'package:flutter_sample_app/utils/utils.dart';
 import 'package:flutter_sample_app/widgets/loading/loading.dart';
 
@@ -25,7 +25,7 @@ class App extends StatelessWidget {
           iconTheme: IconThemeData(color: ColorName.primary),
         ),
       ),
-      home: const ScaffoldMessengerSwitchPage(),
+      home: const TopPage(),
       builder: (BuildContext context, Widget? child) {
         return Stack(
           children: [
