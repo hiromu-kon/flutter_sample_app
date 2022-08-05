@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_sample_app/gen/assets.gen.dart';
+import 'package:flutter_sample_app/pages/account/account_detail_page.dart';
+import 'package:flutter_sample_app/providers/overlay_loading/overlay_loading.dart';
 import 'package:flutter_sample_app/widgets/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -9,6 +10,13 @@ import '../../utils/utils.dart';
 
 class SignUpPage extends HookConsumerWidget {
   const SignUpPage({super.key});
+
+  static Route<dynamic> route() {
+    return MaterialPageRoute<dynamic>(
+      builder: (_) => const SignUpPage(),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final formKey = useFormStateKey();
@@ -56,7 +64,22 @@ class SignUpPage extends HookConsumerWidget {
                     primaryText: '登録する',
                     onPrimaryPressed: () async {
                       if (formKey.currentState!.validate()) {
-                        return;
+                        ref
+                            .read(overlayLoadingProvider.notifier)
+                            .update((_) => true);
+                        await Future<void>.delayed(const Duration(seconds: 3));
+                        ref
+                            .read(overlayLoadingProvider.notifier)
+                            .update((_) => false);
+
+                        context.showSnackBar(
+                          '登録しました',
+                          backgroundColor: Colors.green,
+                        );
+                        await Navigator.push<void>(
+                          context,
+                          AccountDetailPage.route(),
+                        );
                       }
                     },
                     secondaryText: '戻る',
