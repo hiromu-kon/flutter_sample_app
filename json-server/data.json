@@ -1,0 +1,39 @@
+{
+  "blogs": [
+    {
+      "id": 1,
+      "title": "Java",
+      "body": "Java Beans",
+      "post": "2020/10/01",
+      "userid": 1
+    },
+    {
+      "id": 2,
+      "title": "Python",
+      "body": "Python3.10",
+      "post": "2020/10/04",
+      "userid": 1
+    },
+    {
+      "id": 3,
+      "title": "JavaScript",
+      "body": "Vue.js",
+      "post": "2020/10/10",
+      "userid": 2
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "name": "user one",
+      "email": "one@example.com",
+      "password": "userone"
+    },
+    {
+      "id": 2,
+      "name": "user two",
+      "email": "two@example.com",
+      "password": "usertwo"
+    }
+  ]
+}
