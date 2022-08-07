@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sample_app/pages/top_page/top_page.dart';
+import 'package:flutter_sample_app/switch_page.dart';
 import 'package:flutter_sample_app/utils/utils.dart';
 import 'package:flutter_sample_app/widgets/loading/loading.dart';
 
@@ -8,7 +8,6 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // const flavor = String.fromEnvironment('FLAVOR');
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -25,7 +24,7 @@ class App extends StatelessWidget {
           iconTheme: IconThemeData(color: ColorName.primary),
         ),
       ),
-      home: const TopPage(),
+      home: const SwitchPage(),
       builder: (BuildContext context, Widget? child) {
         return Stack(
           children: [

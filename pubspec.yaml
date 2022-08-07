@@ -39,6 +39,11 @@ flutter:
   assets:
     - assets/images/
 
+  fonts:
+    - family: YuseiMagic
+      fonts:
+        - asset: assets/fonts/YuseiMagic-Regular.ttf
+
 flutter_icons:
   android: true
   ios: true
@@ -57,15 +62,3 @@ flutter_gen:
   colors:
     inputs:
       - assets/color/colors.xml
-
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
