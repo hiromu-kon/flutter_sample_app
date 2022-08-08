@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sample_app/switch_page.dart';
+import 'package:flutter_sample_app/utils/gen/fonts.gen.dart';
 import 'package:flutter_sample_app/utils/utils.dart';
 import 'package:flutter_sample_app/widgets/loading/loading.dart';
 
@@ -9,7 +10,6 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         scaffoldBackgroundColor: Colors.white,
@@ -23,6 +23,7 @@ class App extends StatelessWidget {
           elevation: 0,
           iconTheme: IconThemeData(color: ColorName.primary),
         ),
+        fontFamily: FontFamily.yuseiMagic,
       ),
       home: const SwitchPage(),
       builder: (BuildContext context, Widget? child) {

@@ -22,8 +22,8 @@ final signInProvider = Provider.autoDispose<Future<void> Function()>(
       final read = ref.read;
       read(overlayLoadingProvider.notifier).update((state) => true);
       final response = await ref.read(authRepositoryProvider).signIn(
-            email: ref.watch(emailControllerProvider).text,
-            password: ref.watch(passwordControllerProvider).text,
+            email: read(emailControllerProvider).text,
+            password: read(passwordControllerProvider).text,
           );
       final data = AuthResponse.fromJson(response.data as Map<String, dynamic>);
       await read(sharedPreferencesServiceProvider)
@@ -39,12 +39,16 @@ final signInProvider = Provider.autoDispose<Future<void> Function()>(
 final signUpProvider = Provider<Future<void> Function()>(
   (ref) => () async {
     try {
-      ref.read(overlayLoadingProvider.notifier).update((state) => true);
+      final read = ref.read;
+      read(overlayLoadingProvider.notifier).update((state) => true);
 
-      final dynamic response = await ref.read(authRepositoryProvider).signUp(
-            email: '',
-            password: '',
-          );
+      final response = await read(authRepositoryProvider).signUp(
+        email: read(emailControllerProvider).text,
+        password: read(passwordControllerProvider).text,
+      );
+      final data = AuthResponse.fromJson(response.data as Map<String, dynamic>);
+      await read(sharedPreferencesServiceProvider)
+          .setAccessToken(data.accessToken);
     } on Exception {
       rethrow;
     } finally {
