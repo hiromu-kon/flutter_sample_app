@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sample_app/switch_page.dart';
 import 'package:flutter_sample_app/utils/gen/fonts.gen.dart';
 import 'package:flutter_sample_app/utils/utils.dart';
-import 'package:flutter_sample_app/widgets/loading/loading.dart';
+import 'package:flutter_sample_app/widgets/loading.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -19,6 +19,7 @@ class App extends StatelessWidget {
           ),
         ),
         appBarTheme: const AppBarTheme(
+          titleTextStyle: TextStyle(color: Colors.black),
           backgroundColor: Colors.white,
           elevation: 0,
           iconTheme: IconThemeData(color: ColorName.primary),
