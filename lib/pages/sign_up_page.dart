@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_sample_app/features/auth/auth.dart';
 import 'package:flutter_sample_app/pages/home_page.dart';
 import 'package:flutter_sample_app/utils/utils.dart';
 import 'package:flutter_sample_app/widgets/widgets.dart';
@@ -62,15 +63,23 @@ class SignUpPage extends HookConsumerWidget {
                     primaryText: '登録する',
                     onPrimaryPressed: () async {
                       if (formKey.currentState!.validate()) {
-                        context.showSnackBar(
-                          '登録しました',
-                          backgroundColor: Colors.green,
-                        );
-                        await Navigator.pushAndRemoveUntil<void>(
-                          context,
-                          HomePage.route(),
-                          (route) => false,
-                        );
+                        try {
+                          await ref.read(signUpProvider).call();
+                          context.showSnackBar(
+                            '登録しました',
+                            backgroundColor: Colors.green,
+                          );
+                          await Navigator.pushAndRemoveUntil<void>(
+                            context,
+                            HomePage.route(),
+                            (route) => false,
+                          );
+                        } on AppException catch (e) {
+                          context.showSnackBarByException(
+                            e,
+                            backgroundColor: Colors.red,
+                          );
+                        }
                       }
                     },
                     secondaryText: '戻る',

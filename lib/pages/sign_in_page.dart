@@ -39,7 +39,7 @@ class SignInPage extends HookConsumerWidget {
                   ),
                   const Gap(30),
                   TextFormField(
-                    controller: ref.watch(emailControllerProvider),
+                    controller: ref.watch(emailTextEditingControllerProvider),
                     autofocus: true,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
@@ -52,7 +52,8 @@ class SignInPage extends HookConsumerWidget {
                   ),
                   const Gap(20),
                   TextFormField(
-                    controller: ref.watch(passwordControllerProvider),
+                    controller:
+                        ref.watch(passwordTextEditingControllerProvider),
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'パスワード',
@@ -66,21 +67,19 @@ class SignInPage extends HookConsumerWidget {
                     onPrimaryPressed: () async {
                       if (formKey.currentState!.validate()) {
                         try {
-                          await ref.read(signInProvider)();
-
+                          await ref.read(signInProvider).call();
                           context.showSnackBar(
                             'ログインしました',
                             backgroundColor: Colors.green,
                           );
-
                           await Navigator.pushAndRemoveUntil<void>(
                             context,
                             HomePage.route(),
                             (_) => false,
                           );
-                        } on Exception catch (e) {
-                          context.showSnackBar(
-                            e.toString(),
+                        } on AppException catch (e) {
+                          context.showSnackBarByException(
+                            e,
                             backgroundColor: Colors.red,
                           );
                         }

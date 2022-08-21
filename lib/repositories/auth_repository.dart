@@ -1,5 +1,4 @@
-import 'package:dio/dio.dart';
-import 'package:flutter_sample_app/services/services.dart';
+import 'package:flutter_sample_app/models/response_data/get_auth_response.dart';
 import 'package:flutter_sample_app/utils/utils.dart';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -15,47 +14,46 @@ class AuthRepository {
 
   final ApiClient _client;
 
-  Future<Response<dynamic>> signIn({
+  /// POST /auth/login APIをコールしてサインインをする
+  Future<GetAuthResponse> signIn({
     required String email,
     required String password,
   }) async {
-    try {
-      final response = await _client.post(
-        '/auth/login',
-        data: <String, dynamic>{
-          'email': email,
-          'password': password,
-        },
-      );
+    final response = await _client.post(
+      '/auth/login',
+      data: <String, dynamic>{
+        'email': email,
+        'password': password,
+      },
+    );
 
-      return response;
-    } on Exception catch (e) {
-      logger.warning(e);
-      throw AppException(message: e.toString());
-    }
+    return response.when(
+      success: GetAuthResponse.fromBaseResponseData,
+      failure: (message) => throw AppException(message: message),
+    );
   }
 
-  Future<Response<dynamic>> signUp({
+  /// POST /auth/signup APIをコールしてサインアップをする
+  Future<GetAuthResponse> signUp({
     required String email,
     required String password,
   }) async {
-    try {
-      final response = await _client.post(
-        '/auth/register',
-        data: <String, dynamic>{
-          'email': email,
-          'password': password,
-        },
-      );
+    final response = await _client.post(
+      '/auth/signup',
+      data: <String, dynamic>{
+        'email': email,
+        'password': password,
+      },
+    );
 
-      return response;
-    } on Exception catch (e) {
-      logger.warning(e);
-      throw AppException(message: e.toString());
-    }
+    return response.when(
+      success: GetAuthResponse.fromBaseResponseData,
+      failure: (message) => throw AppException(message: message),
+    );
   }
 
+  /// POST /signout APIをコールしてサインアウトをする
   Future<void> signOut() async {
-    await _client.post('/logout');
+    await _client.post('/signout');
   }
 }
