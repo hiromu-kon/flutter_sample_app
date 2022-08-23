@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_sample_app/features/common/overlay_loading.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_sample_app/repositories/auth_repository.dart';
 import 'package:flutter_sample_app/utils/utils.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -14,9 +14,14 @@ final passwordTextEditingControllerProvider =
   (ref) => TextEditingController(),
 );
 
-/// [AuthRepository]のsignIn()をコールしてサインインをする関数を提供するProvider
-final signInProvider = Provider.autoDispose<Future<void> Function()>(
-  (ref) => () async {
+/// [AuthRepository]のsignIn()をコールしてサインインを提供するProvider
+final signInProvider = Provider.autoDispose<
+    Future<void> Function({
+  required VoidCallback onSuccess,
+})>(
+  (ref) => ({
+    required onSuccess,
+  }) async {
     try {
       final read = ref.read;
       read(overlayLoadingProvider.notifier).update((state) => true);
@@ -27,18 +32,26 @@ final signInProvider = Provider.autoDispose<Future<void> Function()>(
           );
 
       await read(sharedPreferencesServiceProvider)
-          .setAccessToken(response.accessToken);
-    } on AppException {
-      rethrow;
+          .setAccessToken(response.authData.accessToken);
+
+      onSuccess();
+      read(scaffoldMessengerServiceProvider).showSnackBar('ログインしました');
+    } on Exception catch (e) {
+      ref.read(scaffoldMessengerServiceProvider).showSnackBarByException(e);
     } finally {
       ref.read(overlayLoadingProvider.notifier).update((state) => false);
     }
   },
 );
 
-/// [AuthRepository]のsignUp()をコールしてサインアップをする関数を提供するProvider
-final signUpProvider = Provider<Future<void> Function()>(
-  (ref) => () async {
+/// [AuthRepository]のsignUp()をコールしてサインアップを提供するProvider
+final signUpProvider = Provider<
+    Future<void> Function({
+  required VoidCallback onSuccess,
+})>(
+  (ref) => ({
+    required onSuccess,
+  }) async {
     try {
       final read = ref.read;
       read(overlayLoadingProvider.notifier).update((state) => true);
@@ -49,24 +62,38 @@ final signUpProvider = Provider<Future<void> Function()>(
       );
 
       await read(sharedPreferencesServiceProvider)
-          .setAccessToken(response.accessToken);
-    } on AppException {
-      rethrow;
+          .setAccessToken(response.authData.accessToken);
+
+      onSuccess();
+      read(scaffoldMessengerServiceProvider).showSnackBar('登録しました');
+    } on Exception catch (e) {
+      ref.read(scaffoldMessengerServiceProvider).showSnackBarByException(e);
     } finally {
       ref.read(overlayLoadingProvider.notifier).update((state) => false);
     }
   },
 );
 
-/// [AuthRepository]のsignOut()をコールしてサインアウトをする関数を提供するProvider
-final signOutProvider = Provider<Future<void> Function()>(
-  (ref) => () async {
+/// [AuthRepository]のsignOut()をコールしてサインアウトを提供するProvider
+final signOutProvider = Provider<
+    Future<void> Function({
+  required VoidCallback onSuccess,
+})>(
+  (ref) => ({
+    required onSuccess,
+  }) async {
     try {
-      ref.read(overlayLoadingProvider.notifier).update((state) => true);
+      final read = ref.read;
+      read(overlayLoadingProvider.notifier).update((state) => true);
 
-      await ref.read(authRepositoryProvider).signOut();
-    } on AppException {
-      rethrow;
+      await read(authRepositoryProvider).signOut();
+
+      await read(sharedPreferencesServiceProvider).removeByAccessToken();
+
+      onSuccess();
+      read(scaffoldMessengerServiceProvider).showSnackBar('ログアウトしました');
+    } on Exception catch (e) {
+      ref.read(scaffoldMessengerServiceProvider).showSnackBarByException(e);
     } finally {
       ref.read(overlayLoadingProvider.notifier).update((state) => false);
     }

@@ -3,13 +3,15 @@ import 'package:flutter_sample_app/switch_page.dart';
 import 'package:flutter_sample_app/utils/gen/fonts.gen.dart';
 import 'package:flutter_sample_app/utils/utils.dart';
 import 'package:flutter_sample_app/widgets/loading.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class App extends StatelessWidget {
+class App extends HookConsumerWidget {
   const App({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
+      scaffoldMessengerKey: ref.watch(scaffoldKeyProvider),
       theme: ThemeData(
         primarySwatch: Colors.blue,
         scaffoldBackgroundColor: Colors.white,
