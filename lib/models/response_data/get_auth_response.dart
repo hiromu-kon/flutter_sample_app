@@ -1,3 +1,4 @@
+import 'package:flutter_sample_app/models/auth.dart';
 import 'package:flutter_sample_app/models/response_data/base_response_data.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -9,7 +10,7 @@ class GetAuthResponse with _$GetAuthResponse {
   factory GetAuthResponse({
     @Default(true) bool success,
     @Default('') String message,
-    required String accessToken,
+    @Default(Auth.defaultValue) Auth authData,
   }) = _GetAuthResponse;
 
   factory GetAuthResponse.fromJson(Map<String, dynamic> json) =>
@@ -17,12 +18,13 @@ class GetAuthResponse with _$GetAuthResponse {
 
   factory GetAuthResponse.fromBaseResponseData(
     BaseResponseData responseData,
-  ) =>
-      GetAuthResponse.fromJson(
-        <String, dynamic>{
-          'success': responseData.success,
-          'message': responseData.message,
-          'data': responseData.data,
-        },
-      );
+  ) {
+    return GetAuthResponse.fromJson(
+      <String, dynamic>{
+        'success': responseData.success,
+        'message': responseData.message,
+        'authData': responseData.data,
+      },
+    );
+  }
 }
