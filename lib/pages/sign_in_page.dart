@@ -66,23 +66,14 @@ class SignInPage extends HookConsumerWidget {
                     primaryText: 'ログインする',
                     onPrimaryPressed: () async {
                       if (formKey.currentState!.validate()) {
-                        try {
-                          await ref.read(signInProvider).call();
-                          context.showSnackBar(
-                            'ログインしました',
-                            backgroundColor: Colors.green,
-                          );
-                          await Navigator.pushAndRemoveUntil<void>(
-                            context,
-                            HomePage.route(),
-                            (_) => false,
-                          );
-                        } on AppException catch (e) {
-                          context.showSnackBarByException(
-                            e,
-                            backgroundColor: Colors.red,
-                          );
-                        }
+                        await ref.read(signInProvider).call(
+                              onSuccess: () =>
+                                  Navigator.pushAndRemoveUntil<void>(
+                                context,
+                                HomePage.route(),
+                                (_) => false,
+                              ),
+                            );
                       }
                     },
                     secondaryText: '戻る',

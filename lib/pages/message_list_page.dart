@@ -21,12 +21,12 @@ class MessageListPage extends HookConsumerWidget {
           const Align(
             alignment: Alignment.topRight,
             child: CircleAvatar(
+              backgroundColor: Colors.pink,
+              foregroundColor: Colors.white,
               child: Text(
                 '3',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
               ),
-              backgroundColor: Colors.pink,
-              foregroundColor: Colors.white,
             ),
           ),
         ],

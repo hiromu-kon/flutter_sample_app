@@ -63,23 +63,14 @@ class SignUpPage extends HookConsumerWidget {
                     primaryText: '登録する',
                     onPrimaryPressed: () async {
                       if (formKey.currentState!.validate()) {
-                        try {
-                          await ref.read(signUpProvider).call();
-                          context.showSnackBar(
-                            '登録しました',
-                            backgroundColor: Colors.green,
-                          );
-                          await Navigator.pushAndRemoveUntil<void>(
-                            context,
-                            HomePage.route(),
-                            (route) => false,
-                          );
-                        } on AppException catch (e) {
-                          context.showSnackBarByException(
-                            e,
-                            backgroundColor: Colors.red,
-                          );
-                        }
+                        await ref.read(signUpProvider).call(
+                              onSuccess: () =>
+                                  Navigator.pushAndRemoveUntil<void>(
+                                context,
+                                HomePage.route(),
+                                (route) => false,
+                              ),
+                            );
                       }
                     },
                     secondaryText: '戻る',
