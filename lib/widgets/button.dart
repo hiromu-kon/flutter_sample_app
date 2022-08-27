@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sample_app/gen/colors.gen.dart';
 import 'package:flutter_sample_app/utils/utils.dart';
 import 'package:gap/gap.dart';
 
@@ -119,6 +118,46 @@ class TwoButtonsWidget extends StatelessWidget {
         ),
         Gap(belowGap),
       ],
+    );
+  }
+}
+
+class PrimaryIconButton extends StatelessWidget {
+  const PrimaryIconButton({
+    super.key,
+    required this.icon,
+    required this.onPressed,
+    required this.text,
+    this.radius = 20,
+    this.backgroundColor = ColorName.primary,
+    this.width,
+    this.height,
+  });
+
+  final Widget icon;
+  final Future<void> Function() onPressed;
+  final String text;
+  final double radius;
+  final Color backgroundColor;
+  final double? width;
+  final double? height;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: width ?? context.deviceWidth,
+      height: height ?? 45,
+      child: ElevatedButton.icon(
+        onPressed: onPressed,
+        icon: icon,
+        label: Text(text),
+        style: ElevatedButton.styleFrom(
+          primary: backgroundColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(radius),
+          ),
+        ),
+      ),
     );
   }
 }

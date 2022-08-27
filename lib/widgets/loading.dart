@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sample_app/providers/overlay_loading/overlay_loading.dart';
+import 'package:flutter_sample_app/utils/overlay_loading.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class OverlayLoadingWidget extends HookConsumerWidget {
@@ -24,6 +24,17 @@ class OverlayLoadingWidget extends HookConsumerWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class CommonLoadingWidget extends StatelessWidget {
+  const CommonLoadingWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: CircularProgressIndicator(),
     );
   }
 }
