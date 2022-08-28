@@ -11,12 +11,12 @@ class ConnectivityInterceptor extends Interceptor {
     RequestInterceptorHandler handler,
   ) async {
     if (!await isNetworkConnected) {
-      // return handler.reject(
-      //   DioError(
-      //     error: ErrorCode.networkNotConnected,
-      //     requestOptions: options,
-      //   ),
-      // );
+      return handler.reject(
+        DioError(
+          error: ErrorCode.networkNotConnected,
+          requestOptions: options,
+        ),
+      );
     }
     return handler.next(options);
   }
