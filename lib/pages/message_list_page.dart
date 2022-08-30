@@ -1,6 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_sample_app/pages/home_page.dart';
-import 'package:flutter_sample_app/utils/utils.dart';
 import 'package:flutter_sample_app/widgets/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -9,24 +10,41 @@ class MessageListPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final pageTitle = TabItem.messageList.title;
+
+    final items = useState<List<Widget>>([
+      Container(color: Colors.pink, height: 100),
+      Container(color: Colors.orange, height: 100),
+      Container(color: Colors.yellow, height: 100),
+    ]);
+
+    final colors = <Color>[
+      Colors.yellow,
+      Colors.orange,
+      Colors.pink,
+    ];
+
     return Scaffold(
       appBar: CommonAppBar(title: pageTitle),
       endDrawer: const CommonDrawer(),
-      body: Stack(
-        children: [
-          Image.network(
-            'https://lh3.googleusercontent.com/a-/AOh14GhuX9JPJNOqUMKAf4LqUISvo-fU2UFLMfVw0ZDUS_8=s96-c',
-            width: context.deviceWidth * 0.15,
+      body: CustomScrollView(
+        // physics: const BouncingScrollPhysics(
+        //   parent: AlwaysScrollableScrollPhysics(),
+        // ),
+        slivers: <Widget>[
+          CupertinoSliverRefreshControl(
+            onRefresh: () async {
+              await Future<void>.delayed(const Duration(milliseconds: 1500));
+              items.value.insert(
+                0,
+                Container(color: colors[items.value.length % 3], height: 100),
+              );
+              print('refresh');
+            },
           ),
-          const Align(
-            alignment: Alignment.topRight,
-            child: CircleAvatar(
-              backgroundColor: Colors.pink,
-              foregroundColor: Colors.white,
-              child: Text(
-                '3',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-              ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) => items.value[index],
+              childCount: items.value.length,
             ),
           ),
         ],

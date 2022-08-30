@@ -5,12 +5,6 @@ import 'package:flutter_sample_app/pages/message_list_page.dart';
 import 'package:flutter_sample_app/pages/task_list_page.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final _navigatorKeys = <TabItem, GlobalKey<NavigatorState>>{
-  TabItem.taskList: GlobalKey<NavigatorState>(),
-  TabItem.messageList: GlobalKey<NavigatorState>(),
-  TabItem.accountDetail: GlobalKey<NavigatorState>(),
-};
-
 class HomePage extends HookConsumerWidget {
   const HomePage({super.key});
 
@@ -24,6 +18,12 @@ class HomePage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTab = useState<TabItem>(TabItem.messageList);
 
+    final navigatorKeys = <TabItem, GlobalKey<NavigatorState>>{
+      TabItem.taskList: GlobalKey<NavigatorState>(),
+      TabItem.messageList: GlobalKey<NavigatorState>(),
+      TabItem.accountDetail: GlobalKey<NavigatorState>(),
+    };
+
     return Scaffold(
       body: Stack(
         children: TabItem.values
@@ -31,7 +31,7 @@ class HomePage extends HookConsumerWidget {
               (tabItem) => Offstage(
                 offstage: currentTab.value != tabItem,
                 child: Navigator(
-                  key: _navigatorKeys[tabItem],
+                  key: navigatorKeys[tabItem],
                   onGenerateRoute: (settings) {
                     return MaterialPageRoute<Widget>(
                       builder: (context) => tabItem.page,
@@ -57,7 +57,7 @@ class HomePage extends HookConsumerWidget {
           // ③ 選択済なら第一階層まで pop / 未選択なら currentTab に指定
           final selectedTab = TabItem.values[index];
           if (currentTab.value == selectedTab) {
-            _navigatorKeys[selectedTab]
+            navigatorKeys[selectedTab]
                 ?.currentState
                 ?.popUntil((route) => route.isFirst);
           } else {

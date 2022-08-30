@@ -1,27 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_sample_app/features/todo/todo.dart';
+import 'package:flutter_sample_app/models/todo.dart';
 import 'package:flutter_sample_app/utils/utils.dart';
 import 'package:flutter_sample_app/widgets/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class CreateTodoPage extends HookConsumerWidget {
-  const CreateTodoPage({super.key});
+class EditTodoPage extends HookConsumerWidget {
+  const EditTodoPage({
+    super.key,
+    required this.todo,
+  });
 
-  static Route<dynamic> route() {
+  static Route<dynamic> route({
+    required Todo todo,
+  }) {
     return MaterialPageRoute<dynamic>(
-      builder: (_) => const CreateTodoPage(),
+      builder: (_) => EditTodoPage(
+        todo: todo,
+      ),
     );
   }
+
+  final Todo todo;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final formKey = useFormStateKey();
     final contentFocusNode = useFocusNode();
 
+    useEffect(
+      () {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          ref.read(titleTextEditingControllerProvider).text = todo.title;
+          ref.read(contentTextEditingControllerProvider).text = todo.content;
+        });
+
+        return null;
+      },
+      [],
+    );
+
     return Scaffold(
-      appBar: const CommonAppBar(title: 'Todo追加'),
+      appBar: const CommonAppBar(title: 'Todo編集'),
       body: Center(
         child: SizedBox(
           width: context.deviceWidth * 0.8,
@@ -30,7 +52,7 @@ class CreateTodoPage extends HookConsumerWidget {
             child: Column(
               children: [
                 Text(
-                  'Todo追加',
+                  'Todo編集',
                   style: context.h5,
                 ),
                 const Gap(30),
@@ -58,11 +80,9 @@ class CreateTodoPage extends HookConsumerWidget {
                 const Gap(20),
                 ElevatedButton(
                   onPressed: () async {
-                    if (formKey.currentState!.validate()) {
-                      await ref.read(createTodoProvider).call(
-                            onSuccess: () => Navigator.pop(context),
-                          );
-                    }
+                    await ref.read(editTodoProvider(todo.id.toString()));
+
+                    Navigator.pop(context);
                   },
                   child: const Text('編集する'),
                 ),
