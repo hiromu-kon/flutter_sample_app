@@ -19,12 +19,14 @@ final fetchTodosProvider = FutureProvider.autoDispose<List<Todo>>((ref) async {
   try {
     await Future<dynamic>.delayed(const Duration(seconds: 3));
     final response = await ref.watch(todoRepositoryProvider).fetchTodos();
-    final todos = response.todos;
-    return todos;
+    return response.todos;
   } on AppException {
     rethrow;
   }
 });
+
+/// fetchTodosProviderで取得したデータをキャッシュするProvider
+final cachedTodosProvider = StateProvider.autoDispose<List<Todo>>((ref) => []);
 
 /// [TodoRepository]のfetchTodo()をコールして指定したIdのTodoを取得するProvider
 final fetchTodoProvider =
@@ -40,9 +42,29 @@ final fetchTodoProvider =
 });
 
 /// [TodoRepository]のcreateTodo()をコールして指定したIdのTodoを取得するProvider
-final createTodoProvider = Provider((ref) async {
-  await ref.watch(todoRepositoryProvider).createTodo();
-});
+final createTodoProvider = Provider.autoDispose<
+    Future<void> Function({
+  required VoidCallback onSuccess,
+})>(
+  (ref) => ({
+    required onSuccess,
+  }) async {
+    try {
+      final read = ref.read;
+      read(overlayLoadingProvider.notifier).update((state) => true);
+
+      await ref.watch(todoRepositoryProvider).createTodo();
+
+      onSuccess();
+
+      read(scaffoldMessengerServiceProvider).showSnackBar('登録に成功しました。');
+    } on Exception catch (e) {
+      ref.read(scaffoldMessengerServiceProvider).showSnackBarByException(e);
+    } finally {
+      ref.read(overlayLoadingProvider.notifier).update((state) => false);
+    }
+  },
+);
 
 /// [TodoRepository]のeditTodo()をコールして指定したIdのTodoを編集するProvider
 final editTodoProvider =

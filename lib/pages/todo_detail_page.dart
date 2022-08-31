@@ -38,6 +38,7 @@ class TodoDetailPage extends HookConsumerWidget {
             ],
           ),
         ),
+        onRefresh: () => ref.refresh(fetchTodoProvider(id)),
       ),
     );
   }

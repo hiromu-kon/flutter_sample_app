@@ -1,4 +1,3 @@
-import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sample_app/pages/home_page.dart';
 import 'package:flutter_sample_app/pages/top_page.dart';
@@ -23,14 +22,6 @@ class SwitchPage extends HookConsumerWidget {
     BuildContext context,
     SharedPreferencesService sharedPreferences,
   ) async {
-    if (!await isNetworkConnected) {
-      await showOkAlertDialog(
-        context: context,
-        title: '情報を取得出来ませんでした',
-        message: '電波状態や接続の安全性など、ご利用の通信環境をご確認の上、再度お試しください。',
-      );
-    }
-
     if (!await sharedPreferences.getIsLaunched()) {
       await sharedPreferences.setIsLaunched();
 
