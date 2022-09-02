@@ -34,21 +34,23 @@ server.post("/auth/login", (req, resp) => {
   ) {
     resp.status(401).json({
       'success': false,
-      'message': 'Unauthorized',
+      'message': '認証されていません。',
     });
  
     return;
   }
 
   // ログイン後、アクセストークンの生成
-  const access_token = jwt.sign({ email, password }, JWT_SECRET, {
+  const accessToken = jwt.sign({ email, password }, JWT_SECRET, {
     expiresIn: EXPIRATION,
   });
 
   resp.status(200).json({ 
     'success': true,
     'message': '',
-    'token': access_token
+    'data': {
+      accessToken: accessToken
+    }
   });
 });
 
@@ -56,18 +58,20 @@ server.post("/auth/login", (req, resp) => {
  * 新規登録
  * 
  */
-server.post("/auth/register", (req, resp) => {
+server.post("/auth/signup", (req, resp) => {
   const { email, password } = req.body;
 
   // 新規登録後、アクセストークンの生成
-  const access_token = jwt.sign({ email, password }, JWT_SECRET, {
+  const accessToken = jwt.sign({ email, password }, JWT_SECRET, {
     expiresIn: EXPIRATION,
   });
 
   resp.status(200).json({
     'success': true,
     'message': '',
-    'token': access_token
+    'data': {
+      accessToken: accessToken
+    }
   });
 });
 
@@ -75,12 +79,12 @@ server.post("/auth/register", (req, resp) => {
  * ログアウト
  * 
  */
- server.post("/logout", (req, resp) => {
+server.post("/signout", (req, resp) => {
 
   resp.status(200).json({
     'success': true,
     'message': '',
-
+    'data': ''
   });
 });
 
@@ -98,6 +102,26 @@ server.get("/blog/:id", (req, resp) => {
   resp.status(200).json({ blog });
 });
 
+// Todo一覧を取得
+server.get("/todos", (req, resp) => {
+  const todos = db.todos;
+  resp.status(200).json({
+    'success': true,
+    'message': '',
+    'data': todos,
+  });
+});
+// TodoIDから記事を取得
+server.get("/todo/:id", (req, resp) => {
+  const id = req.params.id;
+  const todo = db.todos.find((todo) => todo.id === Number(id));
+  resp.status(200).json({
+    'success': true,
+    'message': '',
+    'data': todo,
+  });
+});
+
 //③ 認証が必要なルート
 server.use((req, resp, next) => {
   // 認証形式チェック
@@ -108,7 +132,8 @@ server.use((req, resp, next) => {
     // 認証形式が異なる場合
     resp.status(401).json({
       "success": false,
-      "message": "Unauthorized",
+      "message": "認証されていません。",
+      "data": {},
       "statusCode": 401,
     });
     return;

@@ -17,4 +17,10 @@
         "readme.*": "authors, backers.md, changelog*, citation*, code_of_conduct.md, codeowners, contributing.md, contributors, copying, credits, governance.md, history.md, license*, maintainers, readme*, security.md, sponsors.md",
         "*.dart": "$(capture).g.dart, $(capture).freezed.dart",
     },
+
+    "editor.renderWhitespace": "none",
+    "dart.previewFlutterUiGuides": true,
+    "dart.previewFlutterUiGuidesCustomTracking": true,
+    "dart.closingLabels": false,
+    "editor.experimental.stickyScroll.enabled": true,
 }

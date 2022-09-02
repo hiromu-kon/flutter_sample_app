@@ -35,5 +35,37 @@
       "email": "two@example.com",
       "password": "usertwo"
     }
+  ],
+  "todos": [
+    {
+      "id": 1,
+      "title": "title",
+      "content": "content",
+      "isDone": false
+    },
+    {
+      "title": "title tet",
+      "content": "content test",
+      "isDone": false,
+      "id": 2
+    },
+    {
+      "id": 3,
+      "title": "title2",
+      "content": "content2",
+      "isDone": true
+    },
+    {
+      "id": 4,
+      "title": "title2",
+      "content": "content2",
+      "isDone": true
+    },
+    {
+      "title": "title tet",
+      "content": "content test",
+      "isDone": false,
+      "id": 5
+    }
   ]
 }

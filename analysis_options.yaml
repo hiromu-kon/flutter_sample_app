@@ -6,6 +6,12 @@ include: package:pedantic_mono/analysis_options.yaml
 #   rules:
 
 analyzer:
+  strong-mode:
+    implicit-casts: false
+    implicit-dynamic: false
+
   errors:
     use_build_context_synchronously: ignore
     invalid_annotation_target: ignore
+    lines_longer_than_80_chars: ignore
+    flutter_style_todos: ignore
