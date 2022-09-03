@@ -7,7 +7,7 @@ import 'package:flutter_sample_app/pages/todo_detail_page.dart';
 import 'package:flutter_sample_app/widgets/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class TodoListPage extends StatelessWidget {
+class TodoListPage extends HookConsumerWidget {
   const TodoListPage({super.key});
 
   static Route<dynamic> route() {
@@ -17,10 +17,34 @@ class TodoListPage extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: const CommonAppBar(title: 'Todo一覧'),
-      body: const _TodoListView(),
+      body: RefreshIndicator(
+        onRefresh: () async => await ref.refresh(fetchTodosProvider),
+        child: ref.watch(fetchTodosProvider).when(
+              data: (todos) {
+                ref
+                    .watch(cachedTodosProvider.notifier)
+                    .update((state) => todos);
+
+                return _TodoListView(
+                  todos: todos,
+                );
+              },
+              error: (e, stack) => CommonErrorWidget(
+                error: e,
+                onRefresh: () => ref.refresh(fetchTodosProvider),
+              ),
+              loading: () {
+                final cachedTodos =
+                    ref.watch(cachedTodosProvider.notifier).state;
+                return cachedTodos.isNotEmpty
+                    ? _TodoListView(todos: cachedTodos)
+                    : const CommonLoadingWidget();
+              },
+            ),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.push<void>(
           context,
@@ -32,39 +56,69 @@ class TodoListPage extends StatelessWidget {
   }
 }
 
-class _TodoListView extends HookConsumerWidget {
-  const _TodoListView();
+class _TodoListView extends StatelessWidget {
+  const _TodoListView({
+    required this.todos,
+  });
+
+  final List<Todo> todos;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return AsyncValueHandler<List<Todo>>(
-      value: ref.watch(fetchTodosProvider),
-      builder: (todos) => RefreshIndicator(
-        onRefresh: () async => ref.refresh(fetchTodosProvider),
-        child: ListView.builder(
-          itemCount: todos.length,
-          itemBuilder: (context, index) => ListTile(
-            title: Text(todos[index].title),
-            subtitle: Text(todos[index].content),
-            onTap: () => Navigator.push<void>(
-              context,
-              TodoDetailPage.route(
-                id: todos[index].id,
-              ),
-            ),
-            trailing: IconButton(
-              onPressed: () => Navigator.push<void>(
-                context,
-                EditTodoPage.route(
-                  title: todos[index].title,
-                  content: todos[index].content,
-                ),
-              ),
-              icon: const Icon(Icons.more_vert),
-            ),
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: todos.length,
+      itemBuilder: (context, index) => ListTile(
+        title: Text(todos[index].title),
+        subtitle: Text(todos[index].content),
+        onTap: () => Navigator.push<void>(
+          context,
+          TodoDetailPage.route(
+            id: todos[index].id,
           ),
+        ),
+        trailing: IconButton(
+          onPressed: () => Navigator.push<void>(
+            context,
+            EditTodoPage.route(todo: todos[index]),
+          ),
+          icon: const Icon(Icons.more_vert),
         ),
       ),
     );
   }
 }
+
+
+// class _TodoListView extends HookConsumerWidget {
+//   const _TodoListView();
+
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     return AsyncValueHandler<List<Todo>>(
+//       value: ref.watch(fetchTodosProvider),
+//       builder: (todos) => ListView.builder(
+//         itemCount: todos.length,
+//         itemBuilder: (context, index) => ListTile(
+//           title: Text(todos[index].title),
+//           subtitle: Text(todos[index].content),
+//           onTap: () => Navigator.push<void>(
+//             context,
+//             TodoDetailPage.route(
+//               id: todos[index].id,
+//             ),
+//           ),
+//           trailing: IconButton(
+//             onPressed: () => Navigator.push<void>(
+//               context,
+//               EditTodoPage.route(
+//                 title: todos[index].title,
+//                 content: todos[index].content,
+//               ),
+//             ),
+//             icon: const Icon(Icons.more_vert),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }

@@ -1,3 +1,5 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_sample_app/pages/account_detail_page.dart';
@@ -17,6 +19,10 @@ class HomePage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTab = useState<TabItem>(TabItem.messageList);
+
+    final network = useStream(
+      Connectivity().onConnectivityChanged,
+    );
 
     final navigatorKeys = <TabItem, GlobalKey<NavigatorState>>{
       TabItem.taskList: GlobalKey<NavigatorState>(),
@@ -103,3 +109,5 @@ enum TabItem {
   /// 画面
   final Widget page;
 }
+
+final isShowDialogProvider = StateProvider<bool>((ref) => false);
