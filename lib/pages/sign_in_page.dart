@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_sample_app/features/auth/auth.dart';
-import 'package:flutter_sample_app/pages/home_page.dart';
+import 'package:flutter_sample_app/pages/main_page.dart';
 import 'package:flutter_sample_app/utils/utils.dart';
 import 'package:flutter_sample_app/widgets/widgets.dart';
 import 'package:gap/gap.dart';
@@ -70,7 +70,7 @@ class SignInPage extends HookConsumerWidget {
                               onSuccess: () =>
                                   Navigator.pushAndRemoveUntil<void>(
                                 context,
-                                HomePage.route(),
+                                MainPage.route(),
                                 (_) => false,
                               ),
                             );

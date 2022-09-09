@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_sample_app/pages/home_page.dart';
+import 'package:flutter_sample_app/pages/main_page.dart';
 import 'package:flutter_sample_app/widgets/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -38,7 +38,7 @@ class MessageListPage extends HookConsumerWidget {
                 0,
                 Container(color: colors[items.value.length % 3], height: 100),
               );
-              print('refresh');
+              // print('refresh');
             },
           ),
           SliverList(
