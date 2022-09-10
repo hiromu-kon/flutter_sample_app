@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sample_app/pages/home_page.dart';
+import 'package:flutter_sample_app/pages/main_page.dart';
 import 'package:flutter_sample_app/pages/top_page.dart';
 import 'package:flutter_sample_app/pages/tutorial_page.dart';
 import 'package:flutter_sample_app/utils/utils.dart';
 import 'package:flutter_sample_app/widgets/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class SwitchPage extends HookConsumerWidget {
-  const SwitchPage({super.key});
+class StartUpPage extends HookConsumerWidget {
+  const StartUpPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -40,7 +40,7 @@ class SwitchPage extends HookConsumerWidget {
       // すでに起動済みでアクセストークンを持っている場合、ホームページへ遷移する
       await NoAnimationRoute.pushAndRemoveUntil<void>(
         context,
-        const HomePage(),
+        const MainPage(),
       );
     }
   }
