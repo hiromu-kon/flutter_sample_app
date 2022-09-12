@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sample_app/switch_page.dart';
-import 'package:flutter_sample_app/utils/gen/fonts.gen.dart';
+import 'package:flutter_sample_app/features/application/application.dart';
+import 'package:flutter_sample_app/start_up_page.dart';
 import 'package:flutter_sample_app/utils/utils.dart';
 import 'package:flutter_sample_app/widgets/loading.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -10,25 +10,17 @@ class App extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final selectedThemeMode = ref.watch(applicationProvider).selectedThemeMode;
+
     return MaterialApp(
       scaffoldMessengerKey: ref.watch(scaffoldKeyProvider),
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: Colors.white,
-        textTheme: const TextTheme(
-          headline5: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        appBarTheme: const AppBarTheme(
-          titleTextStyle: TextStyle(color: Colors.black),
-          backgroundColor: Colors.white,
-          elevation: 0,
-          iconTheme: IconThemeData(color: ColorName.primary),
-        ),
-        fontFamily: FontFamily.yuseiMagic,
-      ),
-      home: const SwitchPage(),
+      theme: selectedThemeMode == ThemeMode.dark
+          ? getAppThemeDark()
+          : getAppThemeLight(),
+      darkTheme: selectedThemeMode == ThemeMode.light
+          ? getAppThemeLight()
+          : getAppThemeDark(),
+      home: const StartUpPage(),
       builder: (BuildContext context, Widget? child) {
         return Stack(
           children: [
