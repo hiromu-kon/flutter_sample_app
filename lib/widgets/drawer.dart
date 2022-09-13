@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sample_app/features/auth/auth.dart';
 import 'package:flutter_sample_app/pages/create_todo_page.dart';
+import 'package:flutter_sample_app/pages/network_page.dart';
 import 'package:flutter_sample_app/pages/settings_page.dart';
 import 'package:flutter_sample_app/pages/todo_list_page.dart';
 import 'package:flutter_sample_app/pages/top_page.dart';
@@ -36,6 +37,10 @@ class CommonDrawer extends HookConsumerWidget {
           ListTile(
             title: const Text('Todoを追加する'),
             onTap: () => Navigator.push<void>(context, CreateTodoPage.route()),
+          ),
+          ListTile(
+            title: const Text('ネットワークページ'),
+            onTap: () => Navigator.push<void>(context, NetworkPage.route()),
           ),
         ],
       ),
