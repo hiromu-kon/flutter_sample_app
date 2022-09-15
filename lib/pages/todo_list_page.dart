@@ -88,6 +88,7 @@ class _TodoListView extends StatelessWidget {
   }
 }
 
+/// AsyncValueHandleを使ったサンプル
 
 // class _TodoListView extends HookConsumerWidget {
 //   const _TodoListView();
@@ -118,6 +119,68 @@ class _TodoListView extends StatelessWidget {
 //             icon: const Icon(Icons.more_vert),
 //           ),
 //         ),
+//       ),
+//     );
+//   }
+// }
+
+
+/// useProviderCachedを使ったサンプル
+
+// class TodoListPage extends HookConsumerWidget {
+//   const TodoListPage({super.key});
+
+//   static Route<dynamic> route() {
+//     return MaterialPageRoute<dynamic>(
+//       builder: (_) => const TodoListPage(),
+//     );
+//   }
+
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     final fetchTodos = ref.watch(fetchTodosProvider);
+//     final fetchTodosCached = useProviderCached(fetchTodos);
+//     return Scaffold(
+//       appBar: const CommonAppBar(title: 'Todo一覧'),
+//       body: RefreshIndicator(
+//         onRefresh: () async => await ref.refresh(fetchTodosProvider),
+//         child: fetchTodosCached.when(
+//           data: (todos) {
+//             return _TodoListView(
+//               todos: todos,
+//             );
+//           },
+//           error: (e, stack) => CommonErrorWidget(
+//             error: e,
+//             onRefresh: () => ref.refresh(fetchTodosProvider),
+//           ),
+//           loading: () {
+//             final cachedTodos = ref.watch(cachedTodosProvider.notifier).state;
+//             return cachedTodos.isNotEmpty
+//                 ? _TodoListView(todos: cachedTodos)
+//                 : const CommonLoadingWidget();
+//           },
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+// class _TodoListView extends StatelessWidget {
+//   const _TodoListView({
+//     required this.todos,
+//   });
+
+//   final List<Todo> todos;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return ListView.builder(
+//       itemCount: todos.length,
+//       itemBuilder: (context, index) => ListTile(
+//         title: Text(todos[index].title),
+//         subtitle: Text(todos[index].content),
+//         onTap: () {},
 //       ),
 //     );
 //   }

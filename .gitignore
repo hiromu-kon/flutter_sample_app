@@ -54,3 +54,6 @@ app.*.map.json
 
 # iOS related
 **/ios/Flutter/DartDefines.xcconfig
+
+# Test related
+/coverage/

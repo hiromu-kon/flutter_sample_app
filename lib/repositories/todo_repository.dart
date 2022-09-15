@@ -41,12 +41,12 @@ class TodoRepository {
     );
   }
 
-  // /// POST /todos APIをコールして、Todoを作成する
+  /// POST /todos APIをコールして、Todoを作成する
   Future<void> createTodo() async {
     final response = await _client.post(
       '/todos',
       header: <String, dynamic>{
-        'authorization': await accessToken,
+        'Authorization': 'Bearer ${await accessToken}',
       },
     );
 

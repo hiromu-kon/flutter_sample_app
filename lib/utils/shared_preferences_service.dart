@@ -10,6 +10,9 @@ enum SharedPreferencesKey {
 
   /// 起動済みかどうか
   isLaunched,
+
+  /// 選択しているテーマ
+  selectedTheme,
 }
 
 /// SharedPreferences のインスタンスを提供するプロバイダ。
@@ -46,10 +49,22 @@ class SharedPreferencesService {
   /// 起動済みかどうかを取得する
   Future<bool> getIsLaunched() => _getBool(SharedPreferencesKey.isLaunched);
 
-  // /// int 型のキー・バリューを保存する
-  // Future<int> _getInt(SharedPreferencesKey key) async {
-  //   return _read(sharedPreferencesProvider).getInt(key.name) ?? 0;
-  // }
+  /// 選択しているテーマを保存する
+  Future<bool> setSelectedTheme(int selectedTheme) =>
+      _setInt(SharedPreferencesKey.selectedTheme, selectedTheme);
+
+  /// 選択しているテーマを取得する
+  Future<int> getSelectedTheme() => _getInt(SharedPreferencesKey.selectedTheme);
+
+  /// int 型のキー・バリューを取得する
+  Future<int> _getInt(SharedPreferencesKey key) async {
+    return _read(sharedPreferencesProvider).getInt(key.name) ?? 0;
+  }
+
+  /// int 型のキー・バリューペアを保存する
+  Future<bool> _setInt(SharedPreferencesKey key, int value) async {
+    return _read(sharedPreferencesProvider).setInt(key.name, value);
+  }
 
   /// String 型のキー・バリューペアを保存する
   Future<bool> _setString(SharedPreferencesKey key, String value) async {
@@ -74,11 +89,6 @@ class SharedPreferencesService {
   /// String 型のキー・バリューを取得する
   // Future<String> _getStringByStringKey(String stringKey) async {
   //   return _read(sharedPreferencesProvider).getString(stringKey) ?? '';
-  // }
-
-  /// int 型のキー・バリューペアを保存する
-  // Future<bool> _setInt(SharedPreferencesKey key, int value) async {
-  //   return _read(sharedPreferencesProvider).setInt(key.name, value);
   // }
 
   /// String 型のキー・バリューペアを保存する

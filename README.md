@@ -45,3 +45,26 @@ Configurations を選択してビルドする。
 |development       |開発環境      |
 |staging     |テスト環境     |
 |production       |本番環境       |
+
+## コードの自動生成
+- `freezed`や`gen`を使ったファイルを変更・追加した場合は下記のコマンドを実行する。
+```
+sh run_build_runner.sh
+```
+
+## 単体テスト（UnitTest / WidgetTest）
+- ローカルで単体テストを行うためには事前に次のライブラリをインストールする。
+
+```bash
+# lcov のインストール
+brew install lcov
+
+# dart_dot_reporter のインストール
+flutter pub global activate dart_dot_reporter
+```
+
+- 次のコマンドで単体テスト（テスト => カバレッジの結果を表示）を実行する。
+
+```bash
+sh run_flutter_test.sh
+```

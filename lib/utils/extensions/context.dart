@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sample_app/utils/utils.dart';
 
 extension ContextExtension on BuildContext {
   double get deviceWidth => MediaQuery.of(this).size.width;
@@ -39,6 +40,28 @@ extension ContextExtension on BuildContext {
         //   },
         // ),
       ),
+    );
+  }
+
+  /// Exception 起点でスナックバーを表示する。
+  /// Dart の Exception 型の場合は toString() 冒頭を取り除いて
+  /// 差し支えのないメッセージに置換しておく。
+  void showSnackBarByException(
+    Exception e, {
+    Color? backgroundColor,
+    Duration duration = const Duration(milliseconds: 1500),
+    VoidCallback? onTap,
+    SnackBarBehavior behavior = SnackBarBehavior.floating,
+    String closeLabel = '閉じる',
+  }) {
+    final message = e.toString();
+    return showSnackBar(
+      message.ifIsEmpty(generalExceptionMessage),
+      backgroundColor: backgroundColor,
+      duration: duration,
+      onTap: onTap,
+      behavior: behavior,
+      closeLabel: closeLabel,
     );
   }
 }

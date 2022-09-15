@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sample_app/pages/home_page.dart';
+import 'package:flutter_sample_app/pages/main_page.dart';
 import 'package:flutter_sample_app/utils/gen/assets.gen.dart';
 import 'package:flutter_sample_app/utils/gen/colors.gen.dart';
 import 'package:flutter_sample_app/widgets/widgets.dart';
