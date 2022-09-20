@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sample_app/pages/main_page.dart';
 import 'package:flutter_sample_app/pages/sign_in_page.dart';
 import 'package:flutter_sample_app/pages/sign_up_page.dart';
 import 'package:flutter_sample_app/utils/extensions/context.dart';
@@ -28,7 +29,11 @@ class TopPage extends StatelessWidget {
               Assets.images.appIcon.image(height: 200),
               PrimaryIconButton(
                 icon: const FaIcon(FontAwesomeIcons.apple),
-                onPressed: () async {},
+                onPressed: () async => Navigator.pushAndRemoveUntil<void>(
+                  context,
+                  MainPage.route(),
+                  (route) => false,
+                ),
                 text: 'Appleでサインイン',
                 backgroundColor: Colors.black,
               ),

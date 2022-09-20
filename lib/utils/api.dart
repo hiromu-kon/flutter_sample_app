@@ -27,6 +27,7 @@ final apibaseUrlProvider = Provider<String>((ref) {
   switch (flavor) {
     case 'dev':
       return 'http://localhost:33000/';
+    // return 'http://192.168.0.15:33000/';
     case 'stg':
       return 'http://localhost:33000/';
     case 'prod':
