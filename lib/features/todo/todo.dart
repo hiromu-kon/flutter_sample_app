@@ -67,10 +67,14 @@ final createTodoProvider = Provider.autoDispose<
 );
 
 /// [TodoRepository]のeditTodo()をコールして指定したIdのTodoを編集するProvider
-final editTodoProvider =
-    Provider.family.autoDispose((ref, String todoId) async {
-  await ref.watch(todoRepositoryProvider).editTodo(todoId: todoId);
-});
+final editTodoProvider = Provider.autoDispose<
+    Future<void> Function({
+  required String todoId,
+})>(
+  (ref) => ({required todoId}) async {
+    await ref.watch(todoRepositoryProvider).editTodo(todoId: todoId);
+  },
+);
 
 /// [TodoRepository]のdeleteTodo()をコールして指定したIdのTodoを削除するProvider
 final deleteTodoProvider =
