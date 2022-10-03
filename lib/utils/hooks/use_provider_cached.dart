@@ -9,7 +9,7 @@ AsyncValue<T> useProviderCached<T>(AsyncValue<T> provider) {
     return provider;
   }
 
-  if (cache.value != null && cache.value is! AsyncLoading) {
+  if (cache.value is! AsyncLoading) {
     return cache.value;
   }
 
