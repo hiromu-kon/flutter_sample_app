@@ -80,7 +80,9 @@ class EditTodoPage extends HookConsumerWidget {
                 const Gap(20),
                 ElevatedButton(
                   onPressed: () async {
-                    await ref.read(editTodoProvider(todo.id.toString()));
+                    await ref
+                        .read(editTodoProvider)
+                        .call(todoId: todo.id.toString());
 
                     Navigator.pop(context);
                   },
