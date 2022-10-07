@@ -22,11 +22,14 @@ class App extends HookConsumerWidget {
           : getAppThemeDark(),
       home: const StartUpPage(),
       builder: (BuildContext context, Widget? child) {
-        return Stack(
-          children: [
-            if (child != null) child,
-            const OverlayLoadingWidget(),
-          ],
+        return GestureDetector(
+          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+          child: Stack(
+            children: [
+              if (child != null) child,
+              const OverlayLoadingWidget(),
+            ],
+          ),
         );
       },
     );
