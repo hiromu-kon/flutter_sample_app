@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_sample_app/pages/main_page.dart';
 import 'package:flutter_sample_app/widgets/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+final isFabVisibleProvider = StateProvider<bool>((ref) => true);
 
 class MessageListPage extends HookConsumerWidget {
   const MessageListPage({super.key});
@@ -15,6 +18,14 @@ class MessageListPage extends HookConsumerWidget {
       Container(color: Colors.pink, height: 100),
       Container(color: Colors.orange, height: 100),
       Container(color: Colors.yellow, height: 100),
+      Container(color: Colors.red, height: 100),
+      Container(color: Colors.blue, height: 100),
+      Container(color: Colors.black, height: 100),
+      Container(color: Colors.teal, height: 100),
+      Container(color: Colors.purple, height: 100),
+      Container(color: Colors.green, height: 100),
+      Container(color: Colors.indigo, height: 100),
+      Container(color: Colors.lime, height: 100),
     ]);
 
     final colors = <Color>[
@@ -23,31 +34,49 @@ class MessageListPage extends HookConsumerWidget {
       Colors.pink,
     ];
 
-    return Scaffold(
-      appBar: CommonAppBar(title: pageTitle),
-      endDrawer: const CommonDrawer(),
-      body: CustomScrollView(
-        // physics: const BouncingScrollPhysics(
-        //   parent: AlwaysScrollableScrollPhysics(),
-        // ),
-        slivers: <Widget>[
-          CupertinoSliverRefreshControl(
-            onRefresh: () async {
-              await Future<void>.delayed(const Duration(milliseconds: 1500));
-              items.value.insert(
-                0,
-                Container(color: colors[items.value.length % 3], height: 100),
-              );
-              // print('refresh');
-            },
-          ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) => items.value[index],
-              childCount: items.value.length,
+    return NotificationListener<UserScrollNotification>(
+      onNotification: (notification) {
+        if (notification.direction == ScrollDirection.forward) {
+          ref.read(isFabVisibleProvider.notifier).update((_) => true);
+        } else if (notification.direction == ScrollDirection.reverse) {
+          ref.read(isFabVisibleProvider.notifier).update((_) => false);
+        }
+
+        return true;
+      },
+      child: Scaffold(
+        appBar: CommonAppBar(title: pageTitle),
+        endDrawer: const CommonDrawer(),
+        body: CustomScrollView(
+          // physics: const BouncingScrollPhysics(
+          //   parent: AlwaysScrollableScrollPhysics(),
+          // ),
+          slivers: <Widget>[
+            CupertinoSliverRefreshControl(
+              onRefresh: () async {
+                await Future<void>.delayed(const Duration(milliseconds: 1500));
+                items.value.insert(
+                  0,
+                  Container(color: colors[items.value.length % 3], height: 100),
+                );
+                // print('refresh');
+              },
             ),
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (BuildContext context, int index) => items.value[index],
+                childCount: items.value.length,
+              ),
+            ),
+          ],
+        ),
+        floatingActionButton: Visibility(
+          visible: ref.watch(isFabVisibleProvider),
+          child: FloatingActionButton(
+            child: const Icon(Icons.add),
+            onPressed: () {},
           ),
-        ],
+        ),
       ),
     );
 
