@@ -122,7 +122,7 @@ class _StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
     double shrinkOffset,
     bool overlapsContent,
   ) {
-    return Container(
+    return ColoredBox(
       color: Colors.white,
       child: tabBar,
     );
