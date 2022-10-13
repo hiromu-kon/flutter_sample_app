@@ -21,7 +21,7 @@ class TodoListPage extends HookConsumerWidget {
     return Scaffold(
       appBar: const CommonAppBar(title: 'Todo一覧'),
       body: RefreshIndicator(
-        onRefresh: () async => await ref.refresh(fetchTodosProvider),
+        onRefresh: () async => await ref.refresh(fetchTodosProvider.future),
         child: ref.watch(fetchTodosProvider).when(
               data: (todos) {
                 ref
