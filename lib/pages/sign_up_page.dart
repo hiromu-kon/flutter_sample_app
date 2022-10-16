@@ -23,6 +23,7 @@ class SignUpPage extends HookConsumerWidget {
 
     return Scaffold(
       body: SingleChildScrollView(
+        reverse: true,
         child: Center(
           child: SizedBox(
             width: context.deviceWidth * 0.8,
@@ -76,6 +77,7 @@ class SignUpPage extends HookConsumerWidget {
                     secondaryText: '戻る',
                     onSecondaryPressed: () async => Navigator.pop(context),
                   ),
+                  const Gap(30),
                 ],
               ),
             ),
