@@ -17,7 +17,7 @@ final contentTextEditingControllerProvider =
 /// [TodoRepository]のfetchTodos()をコールして全てのTodoを取得するProvider
 final fetchTodosProvider = FutureProvider.autoDispose<List<Todo>>((ref) async {
   try {
-    await Future<dynamic>.delayed(const Duration(seconds: 3));
+    await Future<dynamic>.delayed(const Duration(seconds: 1));
     final response = await ref.watch(todoRepositoryProvider).fetchTodos();
     return response.todos;
   } on AppException {
