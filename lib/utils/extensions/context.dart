@@ -15,6 +15,7 @@ extension ContextExtension on BuildContext {
   TextStyle get subtitleStyle => Theme.of(this).textTheme.subtitle1!;
   TextStyle get bodyStyle => Theme.of(this).textTheme.bodyText2!;
   TextStyle get smallStyle => Theme.of(this).textTheme.caption!;
+  TextStyle get defaultTextStyle => DefaultTextStyle.of(this).style;
 
   void showSnackBar(
     String text, {
